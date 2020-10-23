@@ -38,4 +38,7 @@ During creation of the AdLoader above, the withAdListener function sets an AdLis
 
 - [ ] (click-through)
 
+- [ ] Custom Targeting 
+  .addCustomTargeting(adKey, adIdentifier) // Sample
+
 
