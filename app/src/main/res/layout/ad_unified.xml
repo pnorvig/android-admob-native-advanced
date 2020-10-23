@@ -1,8 +1,10 @@
 <com.google.android.gms.ads.formats.UnifiedNativeAdView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -10,17 +12,16 @@
         android:minHeight="50dp"
         android:orientation="vertical">
 
-        <TextView style="@style/AppTheme.AdAttribution"/>
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:paddingLeft="20dp"
-            android:paddingRight="20dp"
-            android:paddingTop="3dp">
+            android:paddingTop="3dp"
+            android:paddingRight="20dp">
 
             <LinearLayout
+                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
@@ -30,17 +31,19 @@
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:adjustViewBounds="true"
-                    android:paddingBottom="5dp"
                     android:paddingEnd="5dp"
-                    android:paddingRight="5dp"/>
+                    android:paddingRight="5dp"
+                    android:paddingBottom="5dp" />
 
                 <LinearLayout
+                    android:visibility="gone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
                     <TextView
                         android:id="@+id/ad_headline"
+                        android:visibility="gone"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textColor="#0000FF"
@@ -48,6 +51,7 @@
                         android:textStyle="bold" />
 
                     <LinearLayout
+                        android:visibility="gone"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
 
@@ -57,7 +61,7 @@
                             android:layout_height="match_parent"
                             android:gravity="bottom"
                             android:textSize="14sp"
-                            android:textStyle="bold"/>
+                            android:textStyle="bold" />
 
                         <RatingBar
                             android:id="@+id/ad_stars"
@@ -75,55 +79,186 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@drawable/rounded_shape"
                 android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/ad_body"
+                    android:visibility="gone"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="20dp"
                     android:layout_marginEnd="20dp"
+                    android:layout_marginRight="20dp"
                     android:textSize="12sp" />
 
                 <com.google.android.gms.ads.formats.MediaView
                     android:id="@+id/ad_media"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
                     android:layout_gravity="center_horizontal"
-                    android:layout_width="250dp"
-                    android:layout_height="175dp"
-                    android:layout_marginTop="5dp" />
+                    android:background="@drawable/rounded_shape" />
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:background="#EAEAEA"
+                        android:layout_height="match_parent">
+
+                        <ImageView
+                            android:id="@+id/imageView_Home"
+                            android:layout_width="64dp"
+                            android:layout_height="64dp"
+                            android:layout_marginTop="8dp"
+                            android:src="@drawable/ic_nz"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <ImageView
+                            android:id="@+id/imageViewAway"
+                            android:layout_width="64dp"
+                            android:layout_height="64dp"
+                            android:src="@drawable/ic_in"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="@+id/imageView_Home" />
+
+                        <TextView
+                            android:id="@+id/textView_homeShortName"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginLeft="16dp"
+                            android:text="NZ"
+                            app:layout_constraintBottom_toTopOf="@+id/imageView_Home"
+                            app:layout_constraintStart_toEndOf="@+id/imageView_Home"
+                            app:layout_constraintTop_toTopOf="@+id/imageView_Home"
+                            tools:text="ENG" />
+
+                        <TextView
+                            android:id="@+id/textView_awayShortName"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="16dp"
+                            android:layout_marginRight="16dp"
+                            android:text="IN"
+                            app:layout_constraintBottom_toTopOf="@+id/imageViewAway"
+                            app:layout_constraintEnd_toStartOf="@+id/imageViewAway"
+                            app:layout_constraintTop_toTopOf="@+id/imageViewAway"
+                            tools:text="NZ" />
+
+                        <TextView
+                            android:id="@+id/textView_homeRuns"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:text="243/5"
+                            android:textColor="@color/blue"
+                            android:textSize="20sp"
+                            android:textStyle="bold"
+                            app:layout_constraintStart_toStartOf="@+id/textView_homeShortName"
+                            app:layout_constraintTop_toBottomOf="@+id/textView_homeShortName"
+                            tools:text="243/5" />
+
+                        <TextView
+                            android:id="@+id/textView_awayRuns"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:text="352"
+                            android:textSize="20sp"
+                            android:textStyle="bold"
+                            app:layout_constraintEnd_toEndOf="@+id/textView_awayShortName"
+                            app:layout_constraintTop_toBottomOf="@+id/textView_awayShortName"
+                            tools:text="352" />
+
+                        <TextView
+                            android:id="@+id/textView_homeOvers"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:text="36.2"
+                            app:layout_constraintStart_toStartOf="@+id/textView_homeRuns"
+                            app:layout_constraintTop_toBottomOf="@+id/textView_homeRuns"
+                            tools:text="36.2" />
+
+                        <TextView
+                            android:id="@+id/textView_awayOvers"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:text="50.0"
+                            app:layout_constraintEnd_toEndOf="@+id/textView_awayRuns"
+                            app:layout_constraintTop_toBottomOf="@+id/textView_awayRuns"
+                            tools:text="50.0" />
+
+                        <View
+                            android:id="@+id/divider"
+                            android:layout_width="345dp"
+                            android:layout_height="1dp"
+                            android:layout_marginTop="32dp"
+                            android:background="?android:attr/listDivider"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/imageView_Home" />
+
+                        <TextView
+                            android:id="@+id/textView_result"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="24dp"
+                            android:layout_marginBottom="16dp"
+                            android:gravity="center_horizontal"
+                            android:textAlignment="center"
+                            android:textColor="@color/blue"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/divider"
+                            android:text="NZ needs 109 runs from 82 balls to win" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                </androidx.cardview.widget.CardView>
 
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"
+                    android:visibility="gone"
                     android:orientation="horizontal"
-                    android:paddingBottom="10dp"
-                    android:paddingTop="10dp">
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp">
 
                     <TextView
                         android:id="@+id/ad_price"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:paddingLeft="5dp"
                         android:paddingStart="5dp"
-                        android:paddingRight="5dp"
+                        android:paddingLeft="5dp"
                         android:paddingEnd="5dp"
+                        android:paddingRight="5dp"
                         android:textSize="12sp" />
 
                     <TextView
                         android:id="@+id/ad_store"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:paddingLeft="5dp"
                         android:paddingStart="5dp"
-                        android:paddingRight="5dp"
+                        android:paddingLeft="5dp"
                         android:paddingEnd="5dp"
+                        android:paddingRight="5dp"
                         android:textSize="12sp" />
 
                     <Button
                         android:id="@+id/ad_call_to_action"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:visibility="gone"
                         android:gravity="center"
                         android:textSize="12sp" />
                 </LinearLayout>

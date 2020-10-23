@@ -16,7 +16,10 @@
 
 package com.google.example.gms.nativeadvancedexample;
 
+import android.os.Build;
 import android.os.Bundle;
+
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -41,6 +44,8 @@ import com.google.android.gms.ads.initialization.InitializationStatus;
 import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 import java.util.Locale;
 
+import static com.google.android.gms.ads.formats.NativeAdOptions.NATIVE_MEDIA_ASPECT_RATIO_LANDSCAPE;
+
 /**
  * A simple activity class that displays native ad formats.
  */
@@ -64,9 +69,9 @@ public class MainActivity extends AppCompatActivity {
             public void onInitializationComplete(InitializationStatus initializationStatus) {}
         });
 
-        refresh = findViewById(R.id.btn_refresh);
-        startVideoAdsMuted = findViewById(R.id.cb_start_muted);
-        videoStatus = findViewById(R.id.tv_video_status);
+        refresh = findViewById(R.id.refresh_button);
+        startVideoAdsMuted = findViewById(R.id.start_muted_checkbox);
+        videoStatus = findViewById(R.id.videostatus_text);
 
         refresh.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -88,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
     private void populateUnifiedNativeAdView(UnifiedNativeAd nativeAd, UnifiedNativeAdView adView) {
         // Set the media view.
         adView.setMediaView((MediaView) adView.findViewById(R.id.ad_media));
-
+        adView.getMediaView().setImageScaleType(ImageView.ScaleType.FIT_XY);
         // Set other ad assets.
         adView.setHeadlineView(adView.findViewById(R.id.ad_headline));
         adView.setBodyView(adView.findViewById(R.id.ad_body));
@@ -103,19 +108,20 @@ public class MainActivity extends AppCompatActivity {
         ((TextView) adView.getHeadlineView()).setText(nativeAd.getHeadline());
         adView.getMediaView().setMediaContent(nativeAd.getMediaContent());
 
+
         // These assets aren't guaranteed to be in every UnifiedNativeAd, so it's important to
         // check before trying to display them.
         if (nativeAd.getBody() == null) {
           adView.getBodyView().setVisibility(View.INVISIBLE);
         } else {
-          adView.getBodyView().setVisibility(View.VISIBLE);
+          adView.getBodyView().setVisibility(View.GONE);
           ((TextView) adView.getBodyView()).setText(nativeAd.getBody());
         }
 
         if (nativeAd.getCallToAction() == null) {
           adView.getCallToActionView().setVisibility(View.INVISIBLE);
         } else {
-          adView.getCallToActionView().setVisibility(View.VISIBLE);
+          adView.getCallToActionView().setVisibility(View.GONE);
           ((Button) adView.getCallToActionView()).setText(nativeAd.getCallToAction());
         }
 
@@ -124,20 +130,20 @@ public class MainActivity extends AppCompatActivity {
         } else {
             ((ImageView) adView.getIconView()).setImageDrawable(
                     nativeAd.getIcon().getDrawable());
-            adView.getIconView().setVisibility(View.VISIBLE);
+            adView.getIconView().setVisibility(View.GONE);
         }
 
         if (nativeAd.getPrice() == null) {
             adView.getPriceView().setVisibility(View.INVISIBLE);
         } else {
-            adView.getPriceView().setVisibility(View.VISIBLE);
+            adView.getPriceView().setVisibility(View.GONE);
             ((TextView) adView.getPriceView()).setText(nativeAd.getPrice());
         }
 
         if (nativeAd.getStore() == null) {
             adView.getStoreView().setVisibility(View.INVISIBLE);
         } else {
-            adView.getStoreView().setVisibility(View.VISIBLE);
+            adView.getStoreView().setVisibility(View.GONE);
             ((TextView) adView.getStoreView()).setText(nativeAd.getStore());
         }
 
@@ -146,14 +152,14 @@ public class MainActivity extends AppCompatActivity {
         } else {
             ((RatingBar) adView.getStarRatingView())
                     .setRating(nativeAd.getStarRating().floatValue());
-            adView.getStarRatingView().setVisibility(View.VISIBLE);
+            adView.getStarRatingView().setVisibility(View.GONE);
         }
 
         if (nativeAd.getAdvertiser() == null) {
             adView.getAdvertiserView().setVisibility(View.INVISIBLE);
         } else {
             ((TextView) adView.getAdvertiserView()).setText(nativeAd.getAdvertiser());
-            adView.getAdvertiserView().setVisibility(View.VISIBLE);
+            adView.getAdvertiserView().setVisibility(View.GONE);
         }
 
         // This method tells the Google Mobile Ads SDK that you have finished populating your
@@ -201,6 +207,7 @@ public class MainActivity extends AppCompatActivity {
 
         builder.forUnifiedNativeAd(new UnifiedNativeAd.OnUnifiedNativeAdLoadedListener() {
             // OnUnifiedNativeAdLoadedListener implementation.
+            @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
             @Override
             public void onUnifiedNativeAdLoaded(UnifiedNativeAd unifiedNativeAd) {
                 // If this callback occurs after the activity is destroyed, you must call
@@ -216,7 +223,7 @@ public class MainActivity extends AppCompatActivity {
                 }
                 nativeAd = unifiedNativeAd;
                 FrameLayout frameLayout =
-                        findViewById(R.id.fl_adplaceholder);
+                        findViewById(R.id.ad_frame);
                 UnifiedNativeAdView adView = (UnifiedNativeAdView) getLayoutInflater()
                         .inflate(R.layout.ad_unified, null);
                 populateUnifiedNativeAdView(unifiedNativeAd, adView);
@@ -232,6 +239,7 @@ public class MainActivity extends AppCompatActivity {
 
         NativeAdOptions adOptions = new NativeAdOptions.Builder()
                 .setVideoOptions(videoOptions)
+                .setMediaAspectRatio(NATIVE_MEDIA_ASPECT_RATIO_LANDSCAPE)
                 .build();
 
         builder.withNativeAdOptions(adOptions);
