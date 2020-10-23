@@ -16,14 +16,6 @@
 
 package com.google.example.gms.nativeadvancedexample;
 
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.PorterDuff;
-import android.graphics.PorterDuffXfermode;
-import android.graphics.Rect;
-import android.graphics.RectF;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -106,8 +98,7 @@ public class MainActivity extends AppCompatActivity {
     private void populateUnifiedNativeAdView(UnifiedNativeAd nativeAd, UnifiedNativeAdView adView) {
         // Set the media view.
         adView.setMediaView((MediaView) adView.findViewById(R.id.ad_media));
-        adView.getMediaView().setImageScaleType(ImageView.ScaleType.FIT_CENTER);
-
+        adView.getMediaView().setImageScaleType(ImageView.ScaleType.FIT_XY);
 
         // Set other ad assets.
         adView.setHeadlineView(adView.findViewById(R.id.ad_headline));
@@ -124,13 +115,7 @@ public class MainActivity extends AppCompatActivity {
 
         BitmapDrawable bitmapDrawable = (BitmapDrawable) nativeAd.getMediaContent().getMainImage();
 
-        Bitmap b = bitmapDrawable.getBitmap();
-
-        Bitmap bitmap = b.copy(Bitmap.Config.ARGB_8888, true);
-
         BitmapDrawable roundedBitmap = Utility.roundCornered(bitmapDrawable, 12);
-
-//        BitmapDrawable roundedBitmap = getRoundedCornerBitmap(this, bitmap, 12, bitmap.getWidth(), bitmap.getHeight(), false, false, true, true);
 
         MediaContent content = nativeAd.getMediaContent();
         content.setMainImage(roundedBitmap);
@@ -287,6 +272,60 @@ public class MainActivity extends AppCompatActivity {
                                         Toast.makeText(
                                                 MainActivity.this,
                                                 "Failed to load native ad with error " + error,
+                                                Toast.LENGTH_SHORT)
+                                                .show();
+                                    }
+
+                                    @Override
+                                    public void onAdLoaded() {
+                                        Toast.makeText(
+                                                MainActivity.this,
+                                                "Ad Loaded",
+                                                Toast.LENGTH_SHORT)
+                                                .show();
+                                    }
+
+                                    @Override
+                                    public void onAdClosed() {
+                                        Toast.makeText(
+                                                MainActivity.this,
+                                                "Ad Closed",
+                                                Toast.LENGTH_SHORT)
+                                                .show();
+                                    }
+
+                                    @Override
+                                    public void onAdClicked() {
+                                        Toast.makeText(
+                                                MainActivity.this,
+                                                "Ad Clicked",
+                                                Toast.LENGTH_SHORT)
+                                                .show();
+                                    }
+
+                                    @Override
+                                    public void onAdOpened() {
+                                        Toast.makeText(
+                                                MainActivity.this,
+                                                "Ad Opened",
+                                                Toast.LENGTH_SHORT)
+                                                .show();
+                                    }
+
+                                    @Override
+                                    public void onAdLeftApplication() {
+                                        Toast.makeText(
+                                                MainActivity.this,
+                                                "Left Application",
+                                                Toast.LENGTH_SHORT)
+                                                .show();
+                                    }
+
+                                    @Override
+                                    public void onAdImpression() {
+                                        Toast.makeText(
+                                                MainActivity.this,
+                                                "Ad Impression ",
                                                 Toast.LENGTH_SHORT)
                                                 .show();
                                     }
