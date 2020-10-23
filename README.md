@@ -19,13 +19,21 @@ https://support.google.com/admob/answer/6177172?hl=en
 
 
 
-- [ ] (Customized MediaView)
+- [x] (Customized MediaView)
 
 
 
 <img src="https://github.com/sharan10salian/android-admob-native-advanced/blob/main/ic_ad_media_view.png">
 
-- [ ] (Event Capture)
+- [x] (Event Capture)
+During creation of the AdLoader above, the withAdListener function sets an AdListener. 
+
+```
+.withAdListener(new AdListener() {
+    // AdListener callbacks like OnAdFailedToLoad, OnAdOpened, OnAdClicked and
+    // so on, can be overridden here.
+})
+```
 
 
 - [ ] (click-through)
