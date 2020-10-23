@@ -128,7 +128,7 @@ public class MainActivity extends AppCompatActivity {
 
         Bitmap bitmap = b.copy(Bitmap.Config.ARGB_8888, true);
 
-        BitmapDrawable roundedBitmap = roundCornered(bitmapDrawable, 12);
+        BitmapDrawable roundedBitmap = Utility.roundCornered(bitmapDrawable, 12);
 
 //        BitmapDrawable roundedBitmap = getRoundedCornerBitmap(this, bitmap, 12, bitmap.getWidth(), bitmap.getHeight(), false, false, true, true);
 
@@ -306,34 +306,6 @@ public class MainActivity extends AppCompatActivity {
         super.onDestroy();
     }
 
-    private BitmapDrawable roundCornered(BitmapDrawable scaledBitmap, int i) {
-
-        Bitmap bitmap = scaledBitmap.getBitmap();
-
-        Bitmap result = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(),
-                Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(result);
-
-        Paint paint = new Paint();
-        Rect rect = new Rect(0, 0, 400, 400);
-        RectF rectF = new RectF(rect);
-        float roundPx = i;
-        paint.setAntiAlias(true);
-        canvas.drawARGB(0, 0, 0, 0);
-        paint.setColor(Color.BLUE);
-        canvas.drawRoundRect(rectF, roundPx, roundPx, paint);
-
-        canvas.save();
-        canvas.clipRect(0, 0, bitmap.getWidth(), bitmap.getHeight());
-        canvas.drawRoundRect(new RectF(0, 0, 400, 450), 50, 50, paint);
-        canvas.restore();
-
-        paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
-        canvas.drawBitmap(bitmap, rect, rect, paint);
-
-        BitmapDrawable finalresult = new BitmapDrawable(result);
-        return finalresult;
-    }
 }
 
 
