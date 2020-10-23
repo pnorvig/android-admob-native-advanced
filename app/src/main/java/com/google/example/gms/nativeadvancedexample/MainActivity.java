@@ -16,10 +16,15 @@
 
 package com.google.example.gms.nativeadvancedexample;
 
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.Path;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffXfermode;
+import android.graphics.Rect;
 import android.graphics.RectF;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
@@ -33,12 +38,12 @@ import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.res.ResourcesCompat;
 
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdLoader;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.LoadAdError;
+import com.google.android.gms.ads.MediaContent;
 import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.ads.VideoController;
 import com.google.android.gms.ads.VideoOptions;
@@ -58,7 +63,7 @@ import static com.google.android.gms.ads.formats.NativeAdOptions.NATIVE_MEDIA_AS
  */
 public class MainActivity extends AppCompatActivity {
 
-    private static final String ADMOB_AD_UNIT_ID = "ca-app-pub-3940256099942544/2247696110";
+    private static final String ADMOB_AD_UNIT_ID = "/423477888/SonyLiv/SL_Branded_Scorecard_Sports_2.0";
 
     private Button refresh;
     private CheckBox startVideoAdsMuted;
@@ -116,7 +121,20 @@ public class MainActivity extends AppCompatActivity {
 
         // The headline and mediaContent are guaranteed to be in every UnifiedNativeAd.
         ((TextView) adView.getHeadlineView()).setText(nativeAd.getHeadline());
-        adView.getMediaView().setMediaContent(nativeAd.getMediaContent());
+
+
+        BitmapDrawable bitmapDrawable = (BitmapDrawable) nativeAd.getMediaContent().getMainImage();
+        float[] radii = new float[8];
+
+        Bitmap bitmap = bitmapDrawable.getBitmap();
+
+        BitmapDrawable roundedBitmap = roundCornered(bitmapDrawable, 20);
+
+
+        MediaContent content = nativeAd.getMediaContent();
+        content.setMainImage(roundedBitmap);
+
+        adView.getMediaView().setMediaContent(content);
 
 
         // These assets aren't guaranteed to be in every UnifiedNativeAd, so it's important to
@@ -287,4 +305,30 @@ public class MainActivity extends AppCompatActivity {
         }
         super.onDestroy();
     }
+
+    private BitmapDrawable roundCornered(BitmapDrawable scaledBitmap, int i) {
+
+        Bitmap bitmap = scaledBitmap.getBitmap();
+
+        Bitmap result = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(),
+                Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(result);
+
+        int color = 0xff424242;
+        Paint paint = new Paint();
+        Rect rect = new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight());
+        RectF rectF = new RectF(rect);
+        float roundPx = i;
+        paint.setAntiAlias(true);
+        canvas.drawARGB(0, 0, 0, 0);
+        paint.setColor(Color.BLUE);
+        canvas.drawRoundRect(rectF, roundPx, roundPx, paint);
+
+        paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
+        canvas.drawBitmap(bitmap, rect, rect, paint);
+        BitmapDrawable finalresult = new BitmapDrawable(result);
+        return finalresult;
+    }
 }
+
+
