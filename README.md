@@ -7,6 +7,7 @@ Native ads policies & guidelines: https://support.google.com/admob/answer/632963
 
 Image elements
 Publishers are allowed to scale the image down without modifying the aspect ratio
+
 Publishers are allowed to crop the image symmetrically by up to 20% in only one dimension (height or width)
 
 
