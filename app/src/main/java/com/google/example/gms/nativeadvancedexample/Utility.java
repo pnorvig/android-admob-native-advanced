@@ -22,7 +22,7 @@ public class Utility {
         Canvas canvas = new Canvas(result);
 
         Paint paint = new Paint();
-        Rect rect = new Rect(0, 0, bitmap.getWidth() , bitmap.getHeight());
+        Rect rect = new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight());
         RectF rectF = new RectF(rect);
 
         float roundPx = i;
@@ -31,7 +31,7 @@ public class Utility {
         paint.setColor(Color.BLUE);
         canvas.drawRoundRect(rectF, roundPx, roundPx, paint);
 
-        Path path = RoundedRect(0, 0, bitmap.getWidth() , bitmap.getHeight(),
+        Path path = RoundedRect(0, 0, bitmap.getWidth(), bitmap.getHeight(),
                 12, 12, true, true, false, false);
         canvas.drawPath(path, paint);
 
@@ -45,7 +45,7 @@ public class Utility {
     public static Path RoundedRect(
             float left, float top, float right, float bottom, float rx, float ry,
             boolean tl, boolean tr, boolean br, boolean bl
-    ){
+    ) {
         Path path = new Path();
         if (rx < 0) rx = 0;
         if (ry < 0) ry = 0;
@@ -59,31 +59,31 @@ public class Utility {
         path.moveTo(right, top + ry);
         if (tr)
             path.rQuadTo(0, -ry, -rx, -ry);//top-right corner
-        else{
+        else {
             path.rLineTo(0, -ry);
-            path.rLineTo(-rx,0);
+            path.rLineTo(-rx, 0);
         }
         path.rLineTo(-widthMinusCorners, 0);
         if (tl)
             path.rQuadTo(-rx, 0, -rx, ry); //top-left corner
-        else{
+        else {
             path.rLineTo(-rx, 0);
-            path.rLineTo(0,ry);
+            path.rLineTo(0, ry);
         }
         path.rLineTo(0, heightMinusCorners);
 
         if (bl)
             path.rQuadTo(0, ry, rx, ry);//bottom-left corner
-        else{
+        else {
             path.rLineTo(0, ry);
-            path.rLineTo(rx,0);
+            path.rLineTo(rx, 0);
         }
 
         path.rLineTo(widthMinusCorners, 0);
         if (br)
             path.rQuadTo(rx, 0, rx, -ry); //bottom-right corner
-        else{
-            path.rLineTo(rx,0);
+        else {
+            path.rLineTo(rx, 0);
             path.rLineTo(0, -ry);
         }
 
@@ -93,5 +93,4 @@ public class Utility {
 
         return path;
     }
-
 }

@@ -20,6 +20,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.FrameLayout;
@@ -30,7 +31,6 @@ import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
 
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdLoader;
@@ -48,8 +48,6 @@ import com.google.android.gms.ads.initialization.InitializationStatus;
 import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 
 import java.util.Locale;
-
-import static com.google.android.gms.ads.formats.NativeAdOptions.NATIVE_MEDIA_ASPECT_RATIO_LANDSCAPE;
 
 /**
  * A simple activity class that displays native ad formats.
@@ -98,8 +96,22 @@ public class MainActivity extends AppCompatActivity {
      */
     private void populateUnifiedNativeAdView(UnifiedNativeAd nativeAd, UnifiedNativeAdView adView) {
         // Set the media view.
-        adView.setMediaView((MediaView) adView.findViewById(R.id.ad_media));
-        adView.getMediaView().setImageScaleType(ImageView.ScaleType.FIT_XY);
+
+        MediaView mediaView =  adView.findViewById(R.id.ad_media);
+        adView.setMediaView(mediaView);
+
+        mediaView.setOnHierarchyChangeListener(new ViewGroup.OnHierarchyChangeListener() {
+            @Override
+            public void onChildViewAdded(View parent, View child) {
+                if (child instanceof ImageView) {
+                    ImageView imageView = (ImageView) child;
+                    imageView.setAdjustViewBounds(true);
+                }
+            }
+
+            @Override
+            public void onChildViewRemoved(View parent, View child) {}
+        });
 
         // Set other ad assets.
         adView.setHeadlineView(adView.findViewById(R.id.ad_headline));
@@ -115,6 +127,7 @@ public class MainActivity extends AppCompatActivity {
         ((TextView) adView.getHeadlineView()).setText(nativeAd.getHeadline());
 
         BitmapDrawable bitmapDrawable = (BitmapDrawable) nativeAd.getMediaContent().getMainImage();
+        float mediaAspectRatio = nativeAd.getMediaContent().getAspectRatio();
 
         BitmapDrawable roundedBitmap = Utility.roundCornered(bitmapDrawable, 12);
 
@@ -246,13 +259,7 @@ public class MainActivity extends AppCompatActivity {
 
         });
 
-        VideoOptions videoOptions = new VideoOptions.Builder()
-                .setStartMuted(startVideoAdsMuted.isChecked())
-                .build();
-
         NativeAdOptions adOptions = new NativeAdOptions.Builder()
-                .setVideoOptions(videoOptions)
-                .setMediaAspectRatio(NATIVE_MEDIA_ASPECT_RATIO_LANDSCAPE)
                 .build();
 
         builder.withNativeAdOptions(adOptions);

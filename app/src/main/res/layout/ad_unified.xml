@@ -90,12 +90,10 @@
                     android:layout_marginRight="20dp"
                     android:textSize="12sp" />
 
-
                 <com.google.android.gms.ads.formats.MediaView
                     android:id="@+id/ad_media"
-                    style="@style/CustomRoundShape"
                     android:layout_width="match_parent"
-                    android:layout_height="80dp"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"/>
 
                 <LinearLayout
