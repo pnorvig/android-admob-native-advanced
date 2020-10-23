@@ -40,5 +40,8 @@ During creation of the AdLoader above, the withAdListener function sets an AdLis
 
 - [ ] Custom Targeting 
   .addCustomTargeting(adKey, adIdentifier) // Sample
+   https://developers.google.com/ad-manager/mobile-ads-sdk/android/targeting#custom_targeting
+
+- [ ] Aspect Ratio Scaling. 
 
 
