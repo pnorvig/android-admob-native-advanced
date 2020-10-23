@@ -5,4 +5,5 @@
     <color name="colorAccent">@color/blue_onboarding</color>
     <color name="blue_onboarding">#0b58ad</color>
     <color name="blue">#002280</color>
+    <color name="light_pink">#F6F4FB</color>
 </resources>
