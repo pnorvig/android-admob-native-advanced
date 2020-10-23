@@ -14,6 +14,9 @@ Publishers are allowed to crop the image symmetrically by up to 20% in only one 
 MediaView class is respsonsible to hold the media content. But just has two public methods.
 https://developers.google.com/android/reference/com/google/android/gms/ads/formats/MediaView
 
+Image Ad Sizes & Scaling:
+https://support.google.com/admob/answer/6177172?hl=en
+
 
 
 - [ ] (Customized MediaView)
