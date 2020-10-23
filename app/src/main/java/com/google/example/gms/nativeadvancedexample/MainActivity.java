@@ -39,7 +39,6 @@ import com.google.android.gms.ads.LoadAdError;
 import com.google.android.gms.ads.MediaContent;
 import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.ads.VideoController;
-import com.google.android.gms.ads.VideoOptions;
 import com.google.android.gms.ads.formats.MediaView;
 import com.google.android.gms.ads.formats.NativeAdOptions;
 import com.google.android.gms.ads.formats.UnifiedNativeAd;

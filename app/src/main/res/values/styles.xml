@@ -18,7 +18,7 @@
     </style>
 
     <style name="CustomRoundShape" parent="Theme.AppCompat.Light.Dialog.Alert">
-        <item name="android:windowBackground">@drawable/rounded_shape</item>
+        <item name="android:windowBackground">@drawable/corner_radius_bottom</item>
     </style>
 
 </resources>
