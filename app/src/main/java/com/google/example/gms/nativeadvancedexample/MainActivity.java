@@ -122,20 +122,20 @@ public class MainActivity extends AppCompatActivity {
         // The headline and mediaContent are guaranteed to be in every UnifiedNativeAd.
         ((TextView) adView.getHeadlineView()).setText(nativeAd.getHeadline());
 
-
         BitmapDrawable bitmapDrawable = (BitmapDrawable) nativeAd.getMediaContent().getMainImage();
-        float[] radii = new float[8];
 
-        Bitmap bitmap = bitmapDrawable.getBitmap();
+        Bitmap b = bitmapDrawable.getBitmap();
 
-        BitmapDrawable roundedBitmap = roundCornered(bitmapDrawable, 20);
+        Bitmap bitmap = b.copy(Bitmap.Config.ARGB_8888, true);
 
+        BitmapDrawable roundedBitmap = roundCornered(bitmapDrawable, 12);
+
+//        BitmapDrawable roundedBitmap = getRoundedCornerBitmap(this, bitmap, 12, bitmap.getWidth(), bitmap.getHeight(), false, false, true, true);
 
         MediaContent content = nativeAd.getMediaContent();
         content.setMainImage(roundedBitmap);
 
         adView.getMediaView().setMediaContent(content);
-
 
         // These assets aren't guaranteed to be in every UnifiedNativeAd, so it's important to
         // check before trying to display them.
@@ -314,9 +314,8 @@ public class MainActivity extends AppCompatActivity {
                 Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(result);
 
-        int color = 0xff424242;
         Paint paint = new Paint();
-        Rect rect = new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight());
+        Rect rect = new Rect(0, 0, 400, 400);
         RectF rectF = new RectF(rect);
         float roundPx = i;
         paint.setAntiAlias(true);
@@ -324,8 +323,14 @@ public class MainActivity extends AppCompatActivity {
         paint.setColor(Color.BLUE);
         canvas.drawRoundRect(rectF, roundPx, roundPx, paint);
 
+        canvas.save();
+        canvas.clipRect(0, 0, bitmap.getWidth(), bitmap.getHeight());
+        canvas.drawRoundRect(new RectF(0, 0, 400, 450), 50, 50, paint);
+        canvas.restore();
+
         paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
         canvas.drawBitmap(bitmap, rect, rect, paint);
+
         BitmapDrawable finalresult = new BitmapDrawable(result);
         return finalresult;
     }
