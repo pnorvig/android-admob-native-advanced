@@ -25,7 +25,6 @@ public class Utility {
         Rect rect = new Rect(0, 0, bitmap.getWidth() , bitmap.getHeight());
         RectF rectF = new RectF(rect);
 
-
         float roundPx = i;
         paint.setAntiAlias(true);
         canvas.drawARGB(0, 0, 0, 0);

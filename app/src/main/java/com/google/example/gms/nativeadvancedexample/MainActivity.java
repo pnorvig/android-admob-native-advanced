@@ -106,7 +106,7 @@ public class MainActivity extends AppCompatActivity {
     private void populateUnifiedNativeAdView(UnifiedNativeAd nativeAd, UnifiedNativeAdView adView) {
         // Set the media view.
         adView.setMediaView((MediaView) adView.findViewById(R.id.ad_media));
-        adView.getMediaView().setImageScaleType(ImageView.ScaleType.FIT_XY);
+        adView.getMediaView().setImageScaleType(ImageView.ScaleType.FIT_CENTER);
 
 
         // Set other ad assets.
