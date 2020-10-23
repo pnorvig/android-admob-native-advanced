@@ -16,11 +16,12 @@
 
 package com.google.example.gms.nativeadvancedexample;
 
+import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.Path;
+import android.graphics.RectF;
 import android.os.Build;
 import android.os.Bundle;
-
-import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -29,6 +30,11 @@ import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.res.ResourcesCompat;
+
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdLoader;
 import com.google.android.gms.ads.AdRequest;
@@ -42,6 +48,7 @@ import com.google.android.gms.ads.formats.UnifiedNativeAd;
 import com.google.android.gms.ads.formats.UnifiedNativeAdView;
 import com.google.android.gms.ads.initialization.InitializationStatus;
 import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
+
 import java.util.Locale;
 
 import static com.google.android.gms.ads.formats.NativeAdOptions.NATIVE_MEDIA_ASPECT_RATIO_LANDSCAPE;
@@ -66,7 +73,8 @@ public class MainActivity extends AppCompatActivity {
         // Initialize the Mobile Ads SDK.
         MobileAds.initialize(this, new OnInitializationCompleteListener() {
             @Override
-            public void onInitializationComplete(InitializationStatus initializationStatus) {}
+            public void onInitializationComplete(InitializationStatus initializationStatus) {
+            }
         });
 
         refresh = findViewById(R.id.refresh_button);
@@ -88,12 +96,14 @@ public class MainActivity extends AppCompatActivity {
      * {@link UnifiedNativeAd}.
      *
      * @param nativeAd the object containing the ad's assets
-     * @param adView          the view to be populated
+     * @param adView   the view to be populated
      */
     private void populateUnifiedNativeAdView(UnifiedNativeAd nativeAd, UnifiedNativeAdView adView) {
         // Set the media view.
         adView.setMediaView((MediaView) adView.findViewById(R.id.ad_media));
         adView.getMediaView().setImageScaleType(ImageView.ScaleType.FIT_XY);
+
+
         // Set other ad assets.
         adView.setHeadlineView(adView.findViewById(R.id.ad_headline));
         adView.setBodyView(adView.findViewById(R.id.ad_body));
@@ -112,17 +122,17 @@ public class MainActivity extends AppCompatActivity {
         // These assets aren't guaranteed to be in every UnifiedNativeAd, so it's important to
         // check before trying to display them.
         if (nativeAd.getBody() == null) {
-          adView.getBodyView().setVisibility(View.INVISIBLE);
+            adView.getBodyView().setVisibility(View.INVISIBLE);
         } else {
-          adView.getBodyView().setVisibility(View.GONE);
-          ((TextView) adView.getBodyView()).setText(nativeAd.getBody());
+            adView.getBodyView().setVisibility(View.GONE);
+            ((TextView) adView.getBodyView()).setText(nativeAd.getBody());
         }
 
         if (nativeAd.getCallToAction() == null) {
-          adView.getCallToActionView().setVisibility(View.INVISIBLE);
+            adView.getCallToActionView().setVisibility(View.INVISIBLE);
         } else {
-          adView.getCallToActionView().setVisibility(View.GONE);
-          ((Button) adView.getCallToActionView()).setText(nativeAd.getCallToAction());
+            adView.getCallToActionView().setVisibility(View.GONE);
+            ((Button) adView.getCallToActionView()).setText(nativeAd.getCallToAction());
         }
 
         if (nativeAd.getIcon() == null) {
@@ -198,7 +208,6 @@ public class MainActivity extends AppCompatActivity {
     /**
      * Creates a request for a new native ad based on the boolean parameters and calls the
      * corresponding "populate" method when one is successfully returned.
-     *
      */
     private void refreshAd() {
         refresh.setEnabled(false);
@@ -244,27 +253,27 @@ public class MainActivity extends AppCompatActivity {
 
         builder.withNativeAdOptions(adOptions);
 
-    AdLoader adLoader =
-        builder
-            .withAdListener(
-                new AdListener() {
-                  @Override
-                  public void onAdFailedToLoad(LoadAdError loadAdError) {
-                    refresh.setEnabled(true);
-                    String error =
-                        String.format(
-                            "domain: %s, code: %d, message: %s",
-                            loadAdError.getDomain(),
-                            loadAdError.getCode(),
-                            loadAdError.getMessage());
-                    Toast.makeText(
-                            MainActivity.this,
-                            "Failed to load native ad with error " + error,
-                            Toast.LENGTH_SHORT)
-                        .show();
-                  }
-                })
-            .build();
+        AdLoader adLoader =
+                builder
+                        .withAdListener(
+                                new AdListener() {
+                                    @Override
+                                    public void onAdFailedToLoad(LoadAdError loadAdError) {
+                                        refresh.setEnabled(true);
+                                        String error =
+                                                String.format(
+                                                        "domain: %s, code: %d, message: %s",
+                                                        loadAdError.getDomain(),
+                                                        loadAdError.getCode(),
+                                                        loadAdError.getMessage());
+                                        Toast.makeText(
+                                                MainActivity.this,
+                                                "Failed to load native ad with error " + error,
+                                                Toast.LENGTH_SHORT)
+                                                .show();
+                                    }
+                                })
+                        .build();
 
         adLoader.loadAd(new AdRequest.Builder().build());
 
