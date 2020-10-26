@@ -34,11 +34,12 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdLoader;
-import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.LoadAdError;
 import com.google.android.gms.ads.MediaContent;
 import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.RequestConfiguration;
 import com.google.android.gms.ads.VideoController;
+import com.google.android.gms.ads.doubleclick.PublisherAdRequest;
 import com.google.android.gms.ads.formats.MediaView;
 import com.google.android.gms.ads.formats.NativeAdOptions;
 import com.google.android.gms.ads.formats.UnifiedNativeAd;
@@ -72,6 +73,11 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        RequestConfiguration requestConfiguration = MobileAds.getRequestConfiguration()
+                .toBuilder()
+                .build();
+        MobileAds.setRequestConfiguration(requestConfiguration);
+
         refresh = findViewById(R.id.refresh_button);
         startVideoAdsMuted = findViewById(R.id.start_muted_checkbox);
         videoStatus = findViewById(R.id.videostatus_text);
@@ -96,7 +102,7 @@ public class MainActivity extends AppCompatActivity {
     private void populateUnifiedNativeAdView(UnifiedNativeAd nativeAd, UnifiedNativeAdView adView) {
         // Set the media view.
 
-        MediaView mediaView =  adView.findViewById(R.id.ad_media);
+        MediaView mediaView = adView.findViewById(R.id.ad_media);
         adView.setMediaView(mediaView);
 
         mediaView.setOnHierarchyChangeListener(new ViewGroup.OnHierarchyChangeListener() {
@@ -109,7 +115,8 @@ public class MainActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onChildViewRemoved(View parent, View child) {}
+            public void onChildViewRemoved(View parent, View child) {
+            }
         });
 
         // Set other ad assets.
@@ -126,7 +133,6 @@ public class MainActivity extends AppCompatActivity {
         ((TextView) adView.getHeadlineView()).setText(nativeAd.getHeadline());
 
         BitmapDrawable bitmapDrawable = (BitmapDrawable) nativeAd.getMediaContent().getMainImage();
-        float mediaAspectRatio = nativeAd.getMediaContent().getAspectRatio();
 
         BitmapDrawable roundedBitmap = Utility.roundCornered(bitmapDrawable, 12);
 
@@ -339,7 +345,8 @@ public class MainActivity extends AppCompatActivity {
                                 })
                         .build();
 
-        adLoader.loadAd(new AdRequest.Builder().build());
+        PublisherAdRequest newRequest = new PublisherAdRequest.Builder().addCustomTargeting("matchId", "1023").build();
+        adLoader.loadAd(newRequest);
 
         videoStatus.setText("");
     }
